@@ -11,18 +11,24 @@ use Getopt::Long;
 use Data::Dumper;
 use List::Util qw/max sum/;
 
+my $VERSION=0.1;
 local $0=basename $0;
 sub logmsg{print STDERR "$0: @_\n";}
 exit(main());
 
 sub main{
   my $settings={};
-  GetOptions($settings,qw(help verbose mash-filter=f symmetric|symmetrical)) or die $!;
+  GetOptions($settings,qw(help version verbose mash-filter=f symmetric|symmetrical)) or die $!;
   $$settings{'mash-filter'}||=0.9;
   $$settings{'mash'}=`which mash 2>/dev/null`; 
   $$settings{tempdir}||=tempdir("ani-m.XXXXXX",TMPDIR=>1,CLEANUP=>1);
   chomp($$settings{mash});
   die usage() if($$settings{help});
+
+  if($$settings{version}){
+    print $VERSION;
+    die;
+  }
 
   system("which dnadiff >/dev/null 2>/dev/null");
   die "ERROR: dnadiff was not found in your path!" if $?;
@@ -191,6 +197,7 @@ sub usage{
                      is more than this number. If Mash is not
                      found, no filtering will be run.
   --verbose
+  --version          Print the version and die.
   "
 }
 
