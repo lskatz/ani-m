@@ -15,6 +15,7 @@ This script calculates the average nucleotide identity (ANI).
                      is more than this number. If Mash is not
                      found, no filtering will be run.
   --verbose
+  --version          Print the version and exit
 ```
 
 ## Requirements
